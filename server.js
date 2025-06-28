@@ -263,10 +263,11 @@ async function speechToText(audioBuffer, mimeType) {
         // Convert buffer to File-like object for OpenAI
         const audioFile = new File([audioBuffer], 'audio.webm', { type: mimeType });
 
-        const transcription = await client.audio.transcriptions.create({
-            file: audioFile,
-            model: 'whisper-1',
-        });
+       const transcription = await client.audio.transcriptions.create({
+    file: audioFile,
+    model: 'whisper-1',
+    language: 'en'
+});
 
         return transcription.text;
 
