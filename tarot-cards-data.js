@@ -1,4 +1,3 @@
-module.exports = 
 const tarotCards = [
   {
     name: "The Fool",
@@ -469,3 +468,5 @@ const tarotCards = [
     image: "/tarotdeck/kingofwands.jpeg",
   },
 ];
+
+module.exports = tarotCards;
