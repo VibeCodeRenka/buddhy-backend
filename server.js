@@ -198,6 +198,36 @@ app.get('/api/books', async (req, res) => {
     }
 });
 
+// Load tarot data
+const tarotCards = require('./tarot-cards-data.js');
+
+// Serve tarot card images
+app.use('/tarot-images', express.static('tarot-images'));
+
+// Daily tarot endpoint
+app.get('/api/tarot-daily', (req, res) => {
+    try {
+        // Get random card
+        const randomIndex = Math.floor(Math.random() * tarotCards.length);
+        const randomCard = tarotCards[randomIndex];
+        
+        // Return card with proper image URL
+        res.json({
+            name: randomCard.name,
+            description: randomCard.description,
+            imageUrl: `https://buddhy-backend.onrender.com${randomCard.image.replace('/tarotdeck', '/tarot-images')}`,
+            cardNumber: randomIndex + 1,
+            totalCards: tarotCards.length
+        });
+        
+    } catch (error) {
+        console.error('Tarot endpoint error:', error);
+        res.status(500).json({ 
+            error: 'An error occurred while drawing your tarot card. Please try again.' 
+        });
+    }
+});
+
 // Configure multer for file uploads
 const upload = multer({ 
     storage: multer.memoryStorage(),
