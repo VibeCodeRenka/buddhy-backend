@@ -16,8 +16,11 @@ const PORT = process.env.PORT || 3001;
 app.use(helmet());
 app.set('trust proxy', 1);
 app.use(cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
-    credentials: true
+    origin: '*', // Allow all origins for now
+    credentials: true,
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type'],
+    exposedHeaders: ['Content-Type']
 }));
 app.use(express.json({ limit: '10mb' }));
 
@@ -200,6 +203,13 @@ app.get('/api/books', async (req, res) => {
 
 // Load tarot data
 const tarotCards = require('./tarot-cards-data.js');
+
+// CORS for static files
+app.use('/tarot-images', (req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    next();
+});
+app.use('/tarot-images', express.static('tarot-images'));
 
 // Serve tarot card images
 app.use('/tarot-images', express.static('tarot-images'));
