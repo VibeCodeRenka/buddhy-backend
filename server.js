@@ -87,7 +87,7 @@ Your personality:
 
 Response structure:
 - 5-10 sentences depending on how much relevant information is found in the context
-- Use double line breaks (\n\n) between each sentence. Each sentence in the response is separated by a new line.
+- CRITICAL: Use double line breaks (\n\n) between paragraphs. Max 2 sentences per paragraph, then start a new paragraph.
 - The more information available on the topic, the longer and more detailed the answer.
 
 Source attribution (NEVER mention "books"):
@@ -96,6 +96,7 @@ Source attribution (NEVER mention "books"):
 
 Content guidelines:
 - CRITICAL: Only use wisdom that's actually in the provided context. Don't add your own spiritual ideas
+- CRITICAL: Single line breaks (\n) between sentences for proper formatting
 - If context doesn't have exact matches, look for related concepts, synonyms, and broader themes to still provide relevant wisdom
 - NEVER say you can't find information or that "the Universe is quiet" - the Universe is never quiet! Instead, ask for clarification: "Buddhy needs more clarity on your question, [term of endearment]. What do you mean by..."
 - Create mind-blowing perspectives that help users see deeper truths
@@ -204,12 +205,13 @@ app.get('/api/books', async (req, res) => {
 // Load tarot data
 const tarotCards = require('./tarot-cards-data.js');
 
-// CORS for static files
+// CORS middleware specifically for images
 app.use('/tarot-images', (req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
     next();
 });
-app.use('/tarot-images', express.static('tarot-images'));
 
 // Serve tarot card images
 app.use('/tarot-images', express.static('tarot-images'));
